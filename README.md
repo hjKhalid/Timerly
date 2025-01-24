@@ -30,8 +30,8 @@ Installation
 
 Clone this repository:
 
-git clone https://github.com/your-username/timer-app.git
-cd timer-app
+git clone https://github.com/hkhalid/Timerly.git
+cd Timerly
 
 Install dependencies:
 
@@ -120,9 +120,9 @@ File Structure
 
 .
 ├── components
-│   ├── TimerItem.js       # Timer component for individual timer logic
-│   └── AddTimerForm.js    # Form for creating a new timer
-├── App.js                 # Main app entry point
+│       HistoryScreen.js # Timer component for individual timer logic
+│   └── HomeScreen.js    # Form for creating a new timer
+├── index.js                 # Main app entry point
 ├── styles.js              # Centralized styling
 └── README.md              # Documentation
 
