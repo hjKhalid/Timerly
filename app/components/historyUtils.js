@@ -18,3 +18,18 @@ export const exportHistory = async () => {
   await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(history));
   alert(`History exported to: ${fileUri}`);
 };
+
+// Clears the history from AsyncStorage
+export const clearHistory = async () => {
+  try {
+    const storedHistory = await AsyncStorage.removeItem("history");
+    console.log("History before clearing:", storedHistory);
+
+    await AsyncStorage.clear();
+
+    const historyAfterClear = await AsyncStorage.getItem("history");
+    console.log("History after clearing:", historyAfterClear); // Should be null
+  } catch (error) {
+    console.error("Failed to clear history:", error);
+  }
+}

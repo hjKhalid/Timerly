@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ProgressBar from "react-native-progress/Bar";
-import { exportHistory, addToHistory } from "./historyUtils";
+import { exportHistory, addToHistory,clearHistory } from "./historyUtils";
 
 const HomeScreen = ({ navigation }) => {
   const [timers, setTimers] = useState([]);
@@ -232,7 +232,7 @@ const HomeScreen = ({ navigation }) => {
             style={styles.sectionHeaderContainer}
             onPress={() => toggleCategory(title)}
           >
-            <View style={{ display: "flex", flexDirection: "row" }}>
+            <View style={styles.headingSection}>
               <Text style={styles.sectionHeader}>{title}</Text>
               <Text style={styles.sectionToggle}>
                 {expandedCategories[title] ? "-" : "+"}
@@ -326,39 +326,56 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#f9fafb", // Softer background for a modern look
   },
   button: {
-    backgroundColor: "#007BFF", // Button color
-    paddingVertical: 12, // Vertical padding
-    paddingHorizontal: 20, // Horizontal padding
-    borderRadius: 5, // Rounded corners
-    marginBottom: 10, // Space between buttons
-    alignItems: "center", // Centering text inside button
+    backgroundColor: "#007BFF", // Primary button color
+    paddingVertical: 14, // Larger vertical padding
+    paddingHorizontal: 24, // Prominent button
+    borderRadius: 8, // Smooth rounded corners
+    marginBottom: 12, // Consistent spacing
+    alignItems: "center",
     justifyContent: "center",
-    marginLeft:5 // Vertically centering text inside button
+    elevation: 4, // Subtle shadow for depth
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   buttonText: {
-    color: "#fff", // Text color
+    color: "#fff", // White text for contrast
     fontSize: 16,
-    fontWeight: "bold", // Make the text bold
+    fontWeight: "600", // Semi-bold for emphasis
+    letterSpacing: 0.5, // Modern spacing
   },
   buttonTextModal: {
     width: 50,
     textAlign: "center",
-    color: "#fff", // Text color
+    color: "#fff",
     fontSize: 16,
-    fontWeight: "bold", // Make the text bold
+    fontWeight: "600",
+    letterSpacing: 0.5,
   },
   timerContainer: {
-    padding: 10,
-    marginVertical: 5,
+    padding: 15,
+    marginVertical: 8,
     backgroundColor: "#fff",
-    borderRadius: 5,
-    elevation: 2,
+    borderRadius: 10, // Smooth corners
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
+  headingSection:{
+    display:"flex",
+    flexDirection:"row",
+    justifyContent:"space-between"
   },
   timerText: {
     fontSize: 16,
+    fontWeight: "500", // Medium weight for readability
+    color: "#1f2937", // Dark gray for text
   },
   timerActions: {
     flexDirection: "row",
@@ -366,99 +383,91 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   actionButton: {
-    backgroundColor: "#28a745", // Action button color
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    marginRight: 5,
+    backgroundColor: "#28a745", // Success green color
+    paddingVertical: 10,
+    paddingHorizontal: 13,
+    borderRadius: 8,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
     alignItems: "center",
     justifyContent: "center",
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
     padding: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed modal background
   },
-  modalButton:{
-    display:"flex",
-    flexDirection:"row"
+  modalContent: {
+    width: "90%",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 22,
+    fontWeight: "700", // Bold and prominent
     marginBottom: 20,
+    color: "#1f2937", // Dark gray for focus
     textAlign: "center",
+    letterSpacing: 0.5, // Balanced letter spacing
+  },
+  spinner: {
+    marginVertical: 20,
   },
   input: {
     borderWidth: 1,
     borderColor: "#ddd",
-    borderRadius: 5,
-    // padding: 10,
-    width: 200,
+    borderRadius: 8,
+    padding: 12,
+    width: "100%",
     marginBottom: 15,
     fontSize: 16,
-  },
-  sectionHeader: {
-    fontSize: 18,
-    fontWeight: "bold",
-    backgroundColor: "#ddd",
-    padding: 5,
-    marginTop: 10,
+    fontWeight: "400", // Normal weight for forms
+    color: "#374151", // Neutral dark gray for text
+    backgroundColor: "#f9fafb",
   },
   sectionHeaderContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
-    padding: 10,
-    backgroundColor: "#ddd",
-    borderRadius: 5,
+    padding: 12,
+    backgroundColor: "#f1f5f9", // Light background for sections
+    borderRadius: 8,
     marginTop: 10,
-  },
-  sectionToggle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#007BFF",
-    marginLeft: -50,
-  },
-  sectionHeaderContainer: {
-    backgroundColor: "#ddd",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "600", // Medium-bold for titles
+    color: "#1f2937",
+    letterSpacing: 0.3, // Subtle spacing for elegance
+  },
+  sectionToggle: {
+    fontSize: 20,
+    fontWeight: "700", // Bold for toggles
+    color: "#007BFF", // Blue accent
+    textTransform: "uppercase", // Modern toggle design
   },
   bulkActions: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 5,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  // actionButton: {
-  //   padding: 8,
-  //   borderRadius: 5,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   marginHorizontal: 5,
-  // },
 });
+
+
 export default HomeScreen;
